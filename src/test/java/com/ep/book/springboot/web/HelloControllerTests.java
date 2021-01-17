@@ -1,11 +1,15 @@
 package com.ep.book.springboot.web;
 
+import com.ep.book.springboot.config.auth.SecurityConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -14,7 +18,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)// JUnit 실행자가 아닌 다른 실행자, Controller 테스트
-@WebMvcTest // Web에 집중하는 Test 어노테이션 @Controller, ControllerAdvice 사용 가능 단, @Service, @Component, @Respository는 사용x
+// WebMVvcTest는 CustomOAuth2UserService를 스캔하지 못한다.
+//@WebMvcTest // Web에 집중하는 Test 어노테이션 @Controller, ControllerAdvice 사용 가능 단, @Service, @Component, @Respository는 사용x
+@WebMvcTest(controllers = HelloController.class,
+        excludeFilters = {
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = SecurityConfig.class)
+        })
 public class HelloControllerTests {
 
     // 웹 API 사용을 위해 작성. 스프링 mvc테스트의 시작점.
@@ -22,6 +31,7 @@ public class HelloControllerTests {
     @Autowired
     private MockMvc mockMvc;
 
+    @WithMockUser(roles = "USER")
     @Test
     public void helloTest() throws Exception {
         String hello = "hello";
@@ -31,7 +41,7 @@ public class HelloControllerTests {
                 .andExpect(content().string(hello)); // 결과 검증(hello인지)
     }
 
-
+    @WithMockUser(roles = "USER")
     @Test
     public void helloDto() throws Exception {
 
