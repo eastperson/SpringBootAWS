@@ -25,6 +25,8 @@ repositories {
 }
 
 dependencies {
+    implementation 'junit:junit:4.12'
+    implementation 'junit:junit:4.12'
     compile('org.springframework.boot:spring-boot-starter-web')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     compileOnly 'org.projectlombok:lombok'
@@ -39,4 +41,5 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-oauth2-client')
     compile('org.springframework.session:spring-session-jdbc')
     testCompile("org.springframework.security:spring-security-test")
+    compile("org.mariadb.jdbc:mariadb-java-client")
 }

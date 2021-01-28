@@ -65,7 +65,7 @@ public class PostsApiControllerTests {
 
     @Test
     @WithMockUser(roles="USER")
-    public void Posts_register() throws Exception {
+    public void                                                                                                                                                                                                                                                                                                 Posts_register() throws Exception {
         // Given
         String title = "title";
         String content = "content";
